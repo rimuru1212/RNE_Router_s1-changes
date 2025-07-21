@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
 const SignupScreen: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [number, setPhoneNumber] = useState('');
-  const [confirmPassword, setconfirmPassword] = useState('');
+  const [fullname, setFullname] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSignup = () => {
     if (password !== confirmPassword) {
@@ -13,7 +14,16 @@ const SignupScreen: React.FC = () => {
       return;
     }
     // Add your signup logic here
-    console.log('Signing up with:', email, password);
+    console.log('Signing up with:', fullname, phoneNumber, password);
+    setSubmitted(true);
+  };
+
+  const handleClear = () => {
+    setFullname('');
+    setPhoneNumber('');
+    setPassword('');
+    setConfirmPassword('');
+    setSubmitted(false);
   };
 
   return (
@@ -22,38 +32,51 @@ const SignupScreen: React.FC = () => {
 
       <TextInput
         placeholder="Fullname"
-        value={email}
-        onChangeText={setEmail}
+        value={fullname}
+        onChangeText={setFullname}
         style={styles.input}
-        keyboardType="email-address"
       />
 
       <TextInput
         placeholder="Phone Number"
-        value={number}
+        value={phoneNumber}
         onChangeText={setPhoneNumber}
         style={styles.input}
-        
+        keyboardType="phone-pad"
       />
 
       <TextInput
         placeholder="Password"
-        value={confirmPassword}
-        onChangeText={setconfirmPassword}
-        style={styles.input}
-        secureTextEntry
-      />
-      <TextInput
-        placeholder="Confirm Password"
         value={password}
         onChangeText={setPassword}
         style={styles.input}
         secureTextEntry
       />
+      <TextInput
+        placeholder="Confirm Password"
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        style={styles.input}
+        secureTextEntry
+      />
 
-      <Pressable style={styles.button} onPress={handleSignup}>
-        <Text style={styles.buttonText}>Sign Up</Text>
-      </Pressable>
+      <View style={styles.buttonContainer}>
+        <Pressable style={styles.button} onPress={handleSignup}>
+          <Text style={styles.buttonText}>Sign Up</Text>
+        </Pressable>
+        <Pressable style={[styles.button, styles.clearButton]} onPress={handleClear}>
+          <Text style={styles.buttonText}>Clear</Text>
+        </Pressable>
+      </View>
+
+      {submitted && (
+        <View style={styles.output}>
+          <Text style={styles.outputTitle}>Submitted Information:</Text>
+          <Text>Fullname: {fullname}</Text>
+          <Text>Phone Number: {phoneNumber}</Text>
+          <Text>Password: {password}</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -81,15 +104,36 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     paddingHorizontal: 12,
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
   button: {
     backgroundColor: '#2e86de',
     paddingVertical: 14,
     borderRadius: 8,
-    
+    flex: 1,
+    marginRight: 8,
+  },
+  clearButton: {
+    backgroundColor: '#aaa',
+    marginRight: 0,
+    marginLeft: 8,
   },
   buttonText: {
     color: '#fff',
     textAlign: 'center',
     fontSize: 16,
+  },
+  output: {
+    marginVertical: 16,
+    padding: 12,
+    backgroundColor: '#f1f1f1',
+    borderRadius: 8,
+  },
+  outputTitle: {
+    fontWeight: 'bold',
+    marginBottom: 8,
   },
 });
