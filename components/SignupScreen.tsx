@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 const SignupScreen: React.FC = () => {
   const [email, setEmail] = useState('');
   const [number, setPhoneNumber] = useState('');
-  const [confirmPassword, setemail] = useState('');
+  const [confirmPassword, setconfirmPassword] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSignup = () => {
@@ -33,17 +33,18 @@ const SignupScreen: React.FC = () => {
         value={number}
         onChangeText={setPhoneNumber}
         style={styles.input}
-
+        
       />
 
-      <TextInput
-        placeholder="E-mail Address"
-        value={confirmPassword}
-        onChangeText={setemail}
-        style={styles.input}
-      />
       <TextInput
         placeholder="Password"
+        value={confirmPassword}
+        onChangeText={setconfirmPassword}
+        style={styles.input}
+        secureTextEntry
+      />
+      <TextInput
+        placeholder="Confirm Password"
         value={password}
         onChangeText={setPassword}
         style={styles.input}
